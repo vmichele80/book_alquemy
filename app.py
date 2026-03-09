@@ -11,8 +11,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data
 db.init_app(app)
 
 
-
-
 # This is the code to generate the tables. Commented out after the first run
 """
 with app.app_context():
