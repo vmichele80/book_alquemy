@@ -38,6 +38,35 @@ def add_author():
     # it must be a get method
         return render_template('add_author.html')
 
+
+@app.route('/add_book', methods=['GET', 'POST'])
+def add_book():
+    if request.method == 'POST':
+
+        title = request.form["title"]
+        isbn = request.form.get("isbn")
+        publication_year = request.form.get("publication_year")
+        publication_year = int(publication_year) if publication_year else None
+        author_id = int(request.form["author_id"])
+
+        book = Book(
+            title = title,
+            isbn =  isbn,
+            publication_year = publication_year,
+            author_id = author_id)
+
+        db.session.add(book)
+        db.session.commit()
+
+        flash (f"Book  - { book.title } - has been added")
+
+        return redirect(url_for("add_book"))
+
+    else:
+    # it must be a get method
+        authors = Author.query.all()
+        return render_template('add_book.html', authors=authors)
+
 # This is the code to generate the tables. Commented out after the first run
 """
 with app.app_context():
