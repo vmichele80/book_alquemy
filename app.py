@@ -69,9 +69,15 @@ def add_book():
 
 @app.route('/', methods=['GET'])
 def books_list():
-    """this api will show the full list of books"""
-    books = Book.query.all()
-    return render_template('home.html', books=books)
+    """Show the full list of books, sortable by title or author."""
+    sort = request.args.get("sort", "title")
+
+    if sort == "author":
+        books = Book.query.join(Author).order_by(Author.name.asc()).all()
+    else:
+        books = Book.query.order_by(Book.title.asc()).all()
+
+    return render_template('home.html', books=books, sort=sort)
 
 
 # This is the code to generate the tables. Commented out after the first run
