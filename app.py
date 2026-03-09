@@ -67,6 +67,13 @@ def add_book():
         authors = Author.query.all()
         return render_template('add_book.html', authors=authors)
 
+@app.route('/', methods=['GET'])
+def books_list():
+    """this api will show the full list of books"""
+    books = Book.query.all()
+    return render_template('home.html', books=books)
+
+
 # This is the code to generate the tables. Commented out after the first run
 """
 with app.app_context():

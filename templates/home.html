@@ -7,10 +7,37 @@
   </head>
   <body>
 
+  {% if books %}
     {% for book in books %}
-    <div> <h3>{{ book.title }}</h3>
-    </div>
-    {% endfor %}
+      <div style="margin-bottom: 20px;">
 
+        {% if book.isbn %}
+          <img
+            src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+            alt="Cover of {{ book.title }}"
+          >
+        {% else %}
+          <p>No cover available</p>
+        {% endif %}
+
+        <h3>{{ book.title }}</h3>
+
+        <p>
+          Author:
+          {% if book.author %}
+            {{ book.author.name }}
+          {% else %}
+            Unknown author
+          {% endif %}
+        </p>
+
+        <p>ISBN: {{ book.isbn or "N/A" }}</p>
+        <p>Publication year: {{ book.publication_year or "Unknown" }}</p>
+      </div>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <p>No books found in the library.</p>
+  {% endif %}
   </body>
 </html>
