@@ -1,9 +1,12 @@
 from data_models import db, Author, Book
-from flask import Flask, request, render_template, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, render_template, flash, redirect, url_for
+
 import os
 
 app = Flask(__name__)   # Create Flask app
+
+#creating a key to control the session in order to show the message on the page
+app.config["SECRET_KEY"] = "dev_key_for_library_app"
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data/library.sqlite')}"
@@ -27,7 +30,9 @@ def add_author():
         db.session.add(author)
         db.session.commit()
 
-        return {"message": f"Author  - { author.name } - has been added"}
+        flash (f"Author  - { author.name } - has been added")
+
+        return redirect(url_for("add_author"))
 
     else:
     # it must be a get method
