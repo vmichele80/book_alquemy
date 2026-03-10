@@ -67,6 +67,20 @@ def add_book():
         authors = Author.query.all()
         return render_template('add_book.html', authors=authors)
 
+
+@app.route('/book/<int:book_id>/delete', methods=['POST'])
+def delete_book(book_id):
+    """Delete a specific book from the database."""
+
+    book = Book.query.get_or_404(book_id)
+    book_title = book.title
+
+    db.session.delete(book)
+    db.session.commit()
+
+    flash(f'Book "{book_title}" was deleted successfully.')
+    return redirect(url_for('books_list'))
+
 @app.route('/', methods=['GET'])
 def books_list():
     """Show the full list of books, sortable by title or author."""
