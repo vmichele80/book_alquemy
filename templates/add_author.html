@@ -3,31 +3,39 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Author</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
+    <div class="container-small">
+      <div class="top-link">
+        <a href="{{ url_for('books_list') }}">← Back to Library</a>
+      </div>
 
-  <form action="/add_author" method="POST">
-  <label for="name">Author Name:</label> 
-  <input type="text" id="name" name="name" required><br><br>
-  
-  <label for="birthdate">Birthdate:</label> 
-  <input type="date" id="birthdate" name="birthdate" required><br><br> 
-  <label for="date_of_death">Date of Death:</label> 
-  <input type="date" id="date_of_death" name="date_of_death"><br><br>
-  <input type="submit" value="Add Author"> 
-  </form>
+      <div class="card">
+        <h1>Add Author</h1>
 
-  {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li style="color: green;">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-  {% endwith %}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
 
+        <form action="{{ url_for('add_author') }}" method="POST">
+          <label for="name">Author Name</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="birthdate">Birthdate</label>
+          <input type="date" id="birthdate" name="birthdate" required>
+
+          <label for="date_of_death">Date of Death</label>
+          <input type="date" id="date_of_death" name="date_of_death">
+
+          <button type="submit">Add Author</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

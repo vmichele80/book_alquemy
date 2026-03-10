@@ -1,32 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <body>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
 
-  <form action="/add_author" method="POST">
-  <label for="name">Author Name:</label>
-  <input type="text" id="name" name="name" required><br><br>
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
 
-  <label for="birthdate">Birthdate:</label>
-  <input type="date" id="birthdate" name="birthdate" required><br><br>
-  <label for="date_of_death">Date of Death:</label>
-  <input type="date" id="date_of_death" name="date_of_death"><br><br>
-  <input type="submit" value="Add Author">
-  </form>
+.container-small {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+}
 
-  {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li style="color: green;">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-  {% endwith %}
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
 
-  </body>
-</html>
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.top-links,
+.top-link {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.top-links a,
+.top-link a {
+  display: inline-block;
+  margin: 0 10px;
+  text-decoration: none;
+  background: #2d6cdf;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+
+.top-link a {
+  background: transparent;
+  color: #2d6cdf;
+  padding: 0;
+}
+
+.top-links a:hover {
+  background: #1f57b8;
+}
+
+.top-link a:hover {
+  text-decoration: underline;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+}
+
+.toolbar form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.toolbar form,
+.inline-form {
+  flex-direction: row;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+select,
+button {
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button,
+input[type="submit"] {
+  background: #2d6cdf;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: #1f57b8;
+}
+
+.delete-btn {
+  background: #d9534f;
+}
+
+.delete-btn:hover {
+  background: #b52b27;
+}
+
+.book-card {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  align-items: flex-start;
+}
+
+.book-card img {
+  width: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.book-info {
+  flex: 1;
+}
+
+.book-info h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.book-info p {
+  margin: 6px 0;
+}
+
+.empty-message {
+  text-align: center;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.flash-message {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+  .book-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar form {
+    justify-content: center;
+  }
+}
