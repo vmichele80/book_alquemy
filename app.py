@@ -78,7 +78,15 @@ def delete_book(book_id):
     db.session.delete(book)
     db.session.commit()
 
-    flash(f'Book "{book_title}" was deleted successfully.')
+    if author and len(author.books) == 0:
+        author_name = author.name
+        db.session.delete(author)
+        db.session.commit()
+        flash(
+            f'Book "{book_title}" was deleted. Author "{author_name}" was also deleted because there are no more books by that author.')
+    else:
+        flash(f'Book "{book_title}" was deleted successfully.')
+
     return redirect(url_for('books_list'))
 
 @app.route('/', methods=['GET'])
