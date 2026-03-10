@@ -6,7 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   </head>
   <body>
+    <form method="GET" action="{{ url_for('books_list') }}">
+    <label for="search">Search by title:</label>
 
+      <input
+        type="text"
+        name="search"
+        placeholder="Search for a book..."
+        value="{{ search or '' }}"
+      >
+
+      <button type="submit">Search</button>
+    </form>
+<br><br>
   <form method="GET" action="{{ url_for('books_list') }}">
       <label for="sort">Sort by:</label>
       <select name="sort" id="sort" onchange="this.form.submit()">
@@ -14,7 +26,7 @@
         <option value="author" {% if sort == "author" %}selected{% endif %}>Author</option>
       </select>
     </form>
-
+<br><br>
   {% if books %}
     {% for book in books %}
       <div style="margin-bottom: 20px;">
@@ -44,8 +56,13 @@
       </div>
       <hr>
     {% endfor %}
-  {% else %}
-    <p>No books found in the library.</p>
-  {% endif %}
+
+    {% else %}
+       {% if search %}
+          <p>No books found matching "{{ search }}".</p>
+       {% else %}
+          <p>No books found in the library.</p>
+       {% endif %}
+    {% endif %}
   </body>
 </html>

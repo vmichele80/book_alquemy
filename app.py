@@ -72,12 +72,20 @@ def books_list():
     """Show the full list of books, sortable by title or author."""
     sort = request.args.get("sort", "title")
 
-    if sort == "author":
-        books = Book.query.join(Author).order_by(Author.name.asc()).all()
-    else:
-        books = Book.query.order_by(Book.title.asc()).all()
+    # need to catch the search argument if passed
+    search = request.args.get("search", "").strip()
 
-    return render_template('home.html', books=books, sort=sort)
+    if sort == "author":
+        books_query  = Book.query.join(Author).order_by(Author.name.asc())
+    else:
+        books_query  = Book.query.order_by(Book.title.asc())
+
+    if search:
+        books_query = books_query.filter(Book.title.ilike(f"%{search}%"))
+
+    books = books_query.all()
+
+    return render_template('home.html', books=books, sort=sort, search=search)
 
 
 # This is the code to generate the tables. Commented out after the first run
