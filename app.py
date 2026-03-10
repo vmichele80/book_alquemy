@@ -73,6 +73,7 @@ def delete_book(book_id):
     """Delete a specific book from the database."""
 
     book = Book.query.get_or_404(book_id)
+    author = book.author
     book_title = book.title
 
     db.session.delete(book)
