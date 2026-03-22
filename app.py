@@ -16,11 +16,23 @@ db.init_app(app)
 
 @app.route('/add_author', methods=['GET', 'POST'])
 def add_author():
+    """This endpoint adds an author on Post, checking if name is unique.
+    on GET it retrieves the page UI to add an author
+    """
     if request.method == 'POST':
 
-        name = request.form["name"]
+        name = request.form["name"].strip()
         birthdate = request.form.get("birthdate")
         date_of_death = request.form.get("date_of_death")
+
+        if not name:
+            flash("Author name cannot be empty.")
+            return redirect(url_for("add_author"))
+
+        existing_author = Author.query.filter_by(name=name).first()
+        if existing_author:
+            flash(f'Author "{name}" already exists.')
+            return redirect(url_for("add_author"))
 
         author = Author(
             name = name,
@@ -41,13 +53,28 @@ def add_author():
 
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
+    """This endpoint add books. on get it retrieves the page
+    on POST it stores the data a redirect to homepage"""
+
     if request.method == 'POST':
 
-        title = request.form["title"]
-        isbn = request.form.get("isbn")
+        title = request.form["title"].strip()
+        isbn = request.form.get("isbn").strip()
         publication_year = request.form.get("publication_year")
         publication_year = int(publication_year) if publication_year else None
         author_id = int(request.form["author_id"])
+
+        if not title:
+            flash("Book title cannot be empty.")
+            return redirect(url_for("add_book"))
+
+        if isbn:
+            existing_book = Book.query.filter_by(isbn=isbn).first()
+            if existing_book:
+                flash(f'ISBN "{isbn}" already exists.')
+                return redirect(url_for("add_book"))
+        else:
+            isbn = None
 
         book = Book(
             title = title,

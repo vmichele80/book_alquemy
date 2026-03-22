@@ -7,7 +7,7 @@ class Author(db.Model):
     __tablename__ = 'authors'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, unique=True, nullable=False)
     birth_date = db.Column(db.String) # this date might be unknown
     date_of_death = db.Column(db.String) # this date might be unknown
 
@@ -24,7 +24,7 @@ class Book(db.Model):
     __tablename__ = 'books'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    isbn = db.Column(db.String,unique=True) #older books do not have an isbn
+    isbn = db.Column(db.String(20),unique=True) #older books do not have an isbn
     title = db.Column(db.String, nullable=False)
     publication_year = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id') )
