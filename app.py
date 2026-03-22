@@ -1,11 +1,12 @@
-from data_models import db, Author, Book
-from flask import Flask, request, render_template, flash, redirect, url_for
-
 import os
+
+from flask import Flask, flash, redirect, render_template, request, url_for
+
+from data_models import Author, Book, db
 
 app = Flask(__name__)   # Create Flask app
 
-#creating a key to control the session in order to show the message on the page
+# Creating a key to control the session in order to show the message on the page
 app.config["SECRET_KEY"] = "dev_key_for_library_app"
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -47,7 +48,7 @@ def add_author():
         return redirect(url_for("add_author"))
 
     else:
-    # it must be a get method
+    # It must be a get method
         return render_template('add_author.html')
 
 
@@ -59,7 +60,7 @@ def add_book():
     if request.method == 'POST':
 
         title = request.form["title"].strip()
-        isbn = request.form.get("isbn").strip()
+        isbn = request.form.get("isbn", "").strip()
         publication_year = request.form.get("publication_year")
         publication_year = int(publication_year) if publication_year else None
         author_id = int(request.form["author_id"])
@@ -90,7 +91,7 @@ def add_book():
         return redirect(url_for("add_book"))
 
     else:
-    # it must be a get method
+    # It must be a get method
         authors = Author.query.all()
         return render_template('add_book.html', authors=authors)
 
@@ -110,8 +111,11 @@ def delete_book(book_id):
         author_name = author.name
         db.session.delete(author)
         db.session.commit()
+
         flash(
-            f'Book "{book_title}" was deleted. Author "{author_name}" was also deleted because there are no more books by that author.')
+            f'Book "{book_title}" was deleted. Author "{author_name}" '
+            'was also deleted because there are no more books by that author.'
+        )
     else:
         flash(f'Book "{book_title}" was deleted successfully.')
 
@@ -122,7 +126,7 @@ def books_list():
     """Show the full list of books, sortable by title or author."""
     sort = request.args.get("sort", "title")
 
-    # need to catch the search argument if passed
+    # Need to catch the search argument if passed
     search = request.args.get("search", "").strip()
 
     if sort == "author":
